@@ -1014,16 +1014,26 @@ function wheelFilter(list, q){
   const query = String(q || "").trim().toLowerCase();
   if (!query) return list.slice();
 
-  // 前方一致優先 → 部分一致
   const starts = [];
   const contains = [];
+
   for (const it of list){
-    const s = it.en.toLowerCase();
-    if (s.startsWith(query)) starts.push(it);
-    else if (s.includes(query)) contains.push(it);
+    const en = it.en.toLowerCase();
+    const ja = String(it.ja || "").toLowerCase();
+
+    // 英語：前方一致を優先
+    if (en.startsWith(query)){
+      starts.push(it);
+    }
+    // 英語 or 日本語：部分一致
+    else if (en.includes(query) || ja.includes(query)){
+      contains.push(it);
+    }
   }
+
   return starts.concat(contains);
 }
+
 
 function wheelRender(){
   const q = wheel.search.value;
