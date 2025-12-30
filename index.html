@@ -343,8 +343,11 @@
       display: none;
       align-items: flex-end;
       justify-content: center;
-      padding: 14px;
-      padding-top: calc(env(safe-area-inset-top) + 16px);
+      /* ★iPhoneのノッチ/ステータスバーを確実に避ける */
+      padding-left: 14px;
+      padding-right: 14px;
+      padding-top: calc(env(safe-area-inset-top) + 10px);
+      padding-bottom: calc(env(safe-area-inset-bottom) + 14px);
       z-index: 9999;
     }
     .modalOverlay.show{ display:flex; }
@@ -359,6 +362,11 @@
       overflow: hidden;
       transform: translateY(8px);
       animation: sheetIn .16s ease-out forwards;
+
+        /* ★ここを追加：画面からはみ出さない */
+      max-height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 20px);
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
     }
     @keyframes sheetIn{
       to{ transform: translateY(0); }
