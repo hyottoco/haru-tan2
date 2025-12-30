@@ -510,12 +510,53 @@
       transition: transform .08s linear, opacity .08s linear, border-color .08s linear, background .08s linear;
     }
 
-    .wheelItemInner .sub{
+    /* .wheelItemInner .sub{
       display:block;
       font-size: 12px;
       opacity: .70;
       margin-top: 2px;
+    } */
+
+    .wheelItemInner{
+      width: 100%;
+      max-width: 92%;
+      text-align: left;               /* ← 左寄せに */
+      padding: 8px 10px;
+      border-radius: 14px;
+      border: 1px solid transparent;
+      line-height: 1.15;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+      transition: transform .08s linear, opacity .08s linear, border-color .08s linear, background .08s linear;
+      display: grid;                  /* ← 2列レイアウト */
+      grid-template-columns: 3.2em 1fr;/* ← 左が番号、右が単語/和訳 */
+      column-gap: 10px;
+      align-items: center;
     }
+
+    .wheelItemInner .num{
+      font-size: 12px;      /* ← いまのsubと同じサイズ */
+      opacity: .70;
+      font-variant-numeric: tabular-nums;
+      justify-self: start;
+      user-select: none;
+    }
+
+    .wheelItemInner .main{
+      font-size: 18px;      /* 英単語 */
+      font-weight: 500;
+    }
+
+    .wheelItemInner .ja{
+      display: block;
+      font-size: 12px;      /* ← “今の数字”と同じサイズ */
+      opacity: .70;
+      margin-top: 2px;
+      line-height: 1.2;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+    }
+
 
     .wheelFooter{
       display:flex;
@@ -1012,8 +1053,11 @@ function wheelRender(){
     li.dataset.index = String(i);
     li.innerHTML = `
       <div class="wheelItemInner">
-        ${escapeHtml(it.en)}
-        <span class="sub">No ${it.vocabIndex + 1}</span>
+        <div class="num">${it.vocabIndex + 1}</div>
+        <div>
+          <div class="main">${escapeHtml(it.en)}</div>
+          <span class="ja">${escapeHtml(it.ja)}</span>
+        </div>
       </div>
     `;
     // タップでその項目へスナップ
