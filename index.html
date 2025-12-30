@@ -110,10 +110,10 @@
       font-size: 18px;
     }
 
-    /* ★ここに追加（発音ボタンだけ右寄せ） */
+    /* ★発音ボタンだけ右寄せ */
     #speakBtn{
       margin-left: auto;
-      margin-right: 4px; /* 微調整 */
+      margin-right: 4px;
     }
 
     .primary{ font-weight: 500; }
@@ -136,8 +136,6 @@
 
     /* =========================================================
        復習系UI（淡い色で統一）
-       ★重要：チェックON/OFFで背景色は変えない（理想どおり）
-       ★復習開始 / 復習リストに追加 / 復習Reset に適用
     ========================================================= */
     .reviewUI{
       background: var(--review-bg);
@@ -146,24 +144,19 @@
       border-radius: 14px;
     }
 
-    /* hover は “マウスがある環境だけ” */
     @media (hover: hover) and (pointer: fine){
       .reviewUI:hover{ background: var(--review-bg-hover); }
     }
-    /* タッチ端末では hover 無効（iPhoneで色が戻らない対策） */
     @media (hover: none){
       .reviewUI:hover{ background: var(--review-bg); }
     }
 
-    /* ★押している間だけ「白くする」(復習Reset用) */
     .pressWhite:active{
       background: #fff;
       border-color: var(--review-bd);
       color: var(--review-fg);
     }
 
-    /* iPhoneで「押したあと色が残る」対策（sticky hover対策の保険）
-       pressWhite は hover を絶対に変えない */
     @media (hover: none){
       .pressWhite:hover{ background: var(--review-bg); }
     }
@@ -298,7 +291,6 @@
       color: #e5e7eb;
     }
 
-    /* ダーク時の hover（マウス時のみ） */
     @media (hover: hover) and (pointer: fine){
       body.dark .reviewUI:hover{
         background: rgba(255,255,255,0.10);
@@ -310,16 +302,10 @@
       }
     }
 
-    /* ダーク時：押してる間だけ少し明るく（真っ白は眩しいので） */
     body.dark .pressWhite:active{
       background: rgba(255,255,255,0.16);
       border-color: var(--bd-dark);
       color: #e5e7eb;
-    }
-
-    /* iPhoneのダブルタップ拡大を起こしにくくする */
-    button, label, input, .pill{
-      touch-action: manipulation;
     }
 
     /* ★ページタイトル */
@@ -343,7 +329,6 @@
       display: none;
       align-items: flex-end;
       justify-content: center;
-      /* ★iPhoneのノッチ/ステータスバーを確実に避ける */
       padding-left: 14px;
       padding-right: 14px;
       padding-top: calc(env(safe-area-inset-top) + 10px);
@@ -363,14 +348,11 @@
       transform: translateY(8px);
       animation: sheetIn .16s ease-out forwards;
 
-        /* ★ここを追加：画面からはみ出さない */
       max-height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 20px);
       overflow: auto;
       -webkit-overflow-scrolling: touch;
     }
-    @keyframes sheetIn{
-      to{ transform: translateY(0); }
-    }
+    @keyframes sheetIn{ to{ transform: translateY(0); } }
     body.dark .modalSheet{
       background: #171a21;
       color: #e9e9ea;
@@ -415,8 +397,8 @@
     body.dark .wheelSearchRow{ border-bottom-color: var(--bd-dark); }
 
     .wheelSearchRow .mini{
-      font-size: 14px;   /* ★検索行だけ小さく */
-      padding: 8px 10px; /* 少しだけコンパクトに */
+      font-size: 14px;
+      padding: 8px 10px;
     }
 
     .wheelSearch{
@@ -453,7 +435,6 @@
       background: rgba(255,255,255,0.03);
     }
 
-    /* 上下のフェード（ホイール感） */
     .wheelFadeTop, .wheelFadeBottom{
       pointer-events: none;
       position: absolute;
@@ -477,7 +458,6 @@
       background: linear-gradient(to top, var(--wheel-fade-dark), rgba(15,17,21,0));
     }
 
-    /* 中央の選択枠 */
     .wheelCenterLine{
       pointer-events: none;
       position: absolute;
@@ -493,7 +473,7 @@
 
     .wheelList{
       position: relative;
-      padding: calc(var(--wheel-item-h) * 3) 0; /* 上下に余白（中央合わせ） */
+      padding: calc(var(--wheel-item-h) * 3) 0;
       margin: 0;
       list-style: none;
     }
@@ -514,7 +494,7 @@
     .wheelItemInner{
       width: 100%;
       max-width: 92%;
-      text-align: center;
+      text-align: left;
       padding: 8px 10px;
       border-radius: 14px;
       border: 1px solid transparent;
@@ -522,34 +502,14 @@
       word-break: break-word;
       overflow-wrap: anywhere;
       transition: transform .08s linear, opacity .08s linear, border-color .08s linear, background .08s linear;
-    }
-
-    /* .wheelItemInner .sub{
-      display:block;
-      font-size: 12px;
-      opacity: .70;
-      margin-top: 2px;
-    } */
-
-    .wheelItemInner{
-      width: 100%;
-      max-width: 92%;
-      text-align: left;               /* ← 左寄せに */
-      padding: 8px 10px;
-      border-radius: 14px;
-      border: 1px solid transparent;
-      line-height: 1.15;
-      word-break: break-word;
-      overflow-wrap: anywhere;
-      transition: transform .08s linear, opacity .08s linear, border-color .08s linear, background .08s linear;
-      display: grid;                  /* ← 2列レイアウト */
-      grid-template-columns: 3.2em 1fr;/* ← 左が番号、右が単語/和訳 */
+      display: grid;
+      grid-template-columns: 3.2em 1fr;
       column-gap: 10px;
       align-items: center;
     }
 
     .wheelItemInner .num{
-      font-size: 12px;      /* ← いまのsubと同じサイズ */
+      font-size: 12px;
       opacity: .70;
       font-variant-numeric: tabular-nums;
       justify-self: start;
@@ -557,20 +517,19 @@
     }
 
     .wheelItemInner .main{
-      font-size: 18px;      /* 英単語 */
+      font-size: 18px;
       font-weight: 500;
     }
 
     .wheelItemInner .ja{
       display: block;
-      font-size: 12px;      /* ← “今の数字”と同じサイズ */
+      font-size: 12px;
       opacity: .70;
       margin-top: 2px;
       line-height: 1.2;
       word-break: break-word;
       overflow-wrap: anywhere;
     }
-
 
     .wheelFooter{
       display:flex;
@@ -587,9 +546,9 @@
       opacity: .75;
       padding: 0 12px 10px;
       user-select: none;
+      min-height: 1.2em;
     }
 
-    /* クリック/タップで選択しやすく */
     .wheelItemInner:active{
       transform: translateZ(0) scale(0.99);
     }
@@ -598,12 +557,10 @@
 
 <body>
   <div class="card">
-
     <h1 id="pageTitle" class="page-title"></h1>
 
     <div class="topbar">
       <div class="badge" id="progress">0 / 0</div>
-
       <div class="topbar-right">
         <button id="resetBtn" class="small reviewUI" type="button">Reset</button>
         <button class="small reviewUI pressWhite" id="clearWrongBtn" type="button">復習Reset</button>
@@ -619,7 +576,6 @@
       <button class="small toggle" id="audioToggle" type="button">🔊</button>
       <button class="small toggle" id="themeToggle" type="button">🌙</button>
       <button class="small toggle" id="orderToggle" type="button">🔀 ランダム</button>
-
     </div>
 
     <div class="row">
@@ -655,7 +611,6 @@
       <button id="wheelOpenBtn" type="button">🎡 探す</button>
       <button id="speakBtn" type="button">🔊 発音</button>
     </div>
-
   </div>
 
   <!-- =========================================================
@@ -2595,14 +2550,22 @@ const VOCAB = [
   { en: "zealous", ja: "熱心な；熱狂的な" },
 ];
 
+/* ★検索高速化：小文字版を事前生成 */
+for (const v of VOCAB){
+  v._en = String(v.en || "").toLowerCase();
+  v._ja = String(v.ja || "").toLowerCase();
+  v._mix = v._en + "\n" + v._ja;
+  // 表示用に、HTMLエスケープ済みも持っておく（renderが速くなる）
+  v._enEsc = escapeHtml(v.en);
+  v._jaEsc = escapeHtml(v.ja);
+}
+
 const KEY_AUDIO       = "vocab_app_audio_on_v1";
 const KEY_WRONG_SET   = "vocab_wrong_set_v1";
 const KEY_WRONG_ONLY  = "vocab_wrong_only_v1";
 const KEY_THEME       = "vocab_theme_v1";
 const KEY_RANGE       = "vocab_range_v1";
 const KEY_ORDER_MODE  = "vocab_order_mode_v1";
-
-/* ★追加：ホイールの検索文字 */
 const KEY_WHEEL_QUERY = "vocab_wheel_query_v1";
 
 function shuffle(arr){
@@ -2619,39 +2582,29 @@ function loadJSON(key){
     return raw ? JSON.parse(raw) : null;
   }catch{ return null; }
 }
-function clamp(n, min, max){
-  return Math.max(min, Math.min(max, n));
-}
+function clamp(n, min, max){ return Math.max(min, Math.min(max, n)); }
 
 function loadRange(){
   const saved = loadJSON(KEY_RANGE);
   const maxN = VOCAB.length;
-
   let from = 1;
   let to = Math.min(10, maxN);
-
   if (saved && typeof saved.from === "number" && typeof saved.to === "number"){
     from = saved.from;
     to = saved.to;
   }
-
   from = clamp(Math.floor(from), 1, maxN);
   to   = clamp(Math.floor(to),   1, maxN);
   if (from > to) [from, to] = [to, from];
-
   return { from, to };
 }
-function saveRange(r){
-  saveJSON(KEY_RANGE, r);
-}
+function saveRange(r){ saveJSON(KEY_RANGE, r); }
 
 function loadTheme(){
   const v = localStorage.getItem(KEY_THEME);
   return (v === "dark" || v === "light") ? v : "light";
 }
-function saveTheme(theme){
-  localStorage.setItem(KEY_THEME, theme);
-}
+function saveTheme(theme){ localStorage.setItem(KEY_THEME, theme); }
 function applyTheme(theme){
   const isDark = theme === "dark";
   document.body.classList.toggle("dark", isDark);
@@ -2664,9 +2617,7 @@ function loadOrderMode(){
   const v = localStorage.getItem(KEY_ORDER_MODE);
   return (v === "asc" || v === "random") ? v : "random";
 }
-function saveOrderMode(mode){
-  localStorage.setItem(KEY_ORDER_MODE, mode);
-}
+function saveOrderMode(mode){ localStorage.setItem(KEY_ORDER_MODE, mode); }
 function updateOrderUI(){
   const mode = loadOrderMode();
   const btn = document.getElementById("orderToggle");
@@ -2689,9 +2640,7 @@ function loadAudioOn(){
   const v = localStorage.getItem(KEY_AUDIO);
   return v === null ? true : v === "1";
 }
-function saveAudioOn(on){
-  localStorage.setItem(KEY_AUDIO, on ? "1" : "0");
-}
+function saveAudioOn(on){ localStorage.setItem(KEY_AUDIO, on ? "1" : "0"); }
 function updateAudioUI(){
   const on = loadAudioOn();
   document.getElementById("audioToggle").textContent = on ? "🔊" : "🔇";
@@ -2715,20 +2664,14 @@ function loadWrongSet(){
   const arr = loadJSON(KEY_WRONG_SET);
   return new Set(Array.isArray(arr) ? arr : []);
 }
-function saveWrongSet(set){
-  saveJSON(KEY_WRONG_SET, Array.from(set));
-}
+function saveWrongSet(set){ saveJSON(KEY_WRONG_SET, Array.from(set)); }
 function updateWrongCountUI(){
   const set = loadWrongSet();
   document.getElementById("wrongCount").textContent = `:${set.size}`;
 }
 
-function loadWrongOnly(){
-  return localStorage.getItem(KEY_WRONG_ONLY) === "1";
-}
-function saveWrongOnly(on){
-  localStorage.setItem(KEY_WRONG_ONLY, on ? "1" : "0");
-}
+function loadWrongOnly(){ return localStorage.getItem(KEY_WRONG_ONLY) === "1"; }
+function saveWrongOnly(on){ localStorage.setItem(KEY_WRONG_ONLY, on ? "1" : "0"); }
 
 function getActiveStateKey(){
   const { from, to } = loadRange();
@@ -2755,13 +2698,8 @@ function getPoolIndices(){
 function freshStateForPool(poolIdxs){
   const mode = loadOrderMode();
   let order = [...Array(poolIdxs.length).keys()];
-
-  if (mode === "random"){
-    order = shuffle(order);
-  } else {
-    order.sort((a, b) => poolIdxs[a] - poolIdxs[b]);
-  }
-
+  if (mode === "random") order = shuffle(order);
+  else order.sort((a, b) => poolIdxs[a] - poolIdxs[b]);
   return { poolIdxs, order, index: 0, phase: 0 };
 }
 
@@ -2775,7 +2713,6 @@ function loadState(){
 
   const poolNow = getPoolIndices();
   if (st.poolIdxs.length !== poolNow.length) return null;
-
   return st;
 }
 function saveState(st){
@@ -2849,12 +2786,9 @@ function nextAction(){
     return;
   }
 
-  if (st.phase === 0){
-    st.phase = 1;
-  } else {
-    st.phase = 0;
-    st.index += 1;
-  }
+  if (st.phase === 0) st.phase = 1;
+  else { st.phase = 0; st.index += 1; }
+
   saveState(st);
   setUI(st);
 }
@@ -2868,7 +2802,7 @@ function resetAll(){
 }
 
 /* =========================================================
-   🎡 ホイール機能
+   🎡 ホイール機能（仮想化なし・次の一手）
 ========================================================= */
 const wheel = {
   overlay: null,
@@ -2881,43 +2815,73 @@ const wheel = {
   clearBtn: null,
   openBtn: null,
 
+  // poolキャッシュ
   pool: [],
+  poolKey: "",
+  poolVersion: 0,       // 設定変更時に増やす
   filtered: [],
   activeIndex: 0,
+
   raf: 0,
+
+  // ★分割描画用
+  renderToken: 0,
+  renderTimer: 0,
+  lastQuery: "",
 };
+
+function bumpWheelPoolVersion(){
+  wheel.poolVersion++;
+  wheel.poolKey = "";  // 強制再生成
+}
 
 function loadWheelQuery(){
   const v = localStorage.getItem(KEY_WHEEL_QUERY);
   return (typeof v === "string") ? v : "";
 }
-function saveWheelQuery(q){
-  localStorage.setItem(KEY_WHEEL_QUERY, q);
-}
+function saveWheelQuery(q){ localStorage.setItem(KEY_WHEEL_QUERY, q); }
 
-/* 現在プールを、ホイール表示用配列に */
-function buildWheelPool(){
-  const poolIdxs = getPoolIndices(); // vocabIndex の配列
-  // 表示順：出題順モードに合わせる（random/asc）
+/* ★プールをキャッシュ：範囲/復習/順番が変わったときだけ作る */
+function getWheelPoolCached(){
+  const { from, to } = loadRange();
+  const wrongOnly = loadWrongOnly() ? 1 : 0;
   const mode = loadOrderMode();
+  // wrongSetの中身全部をキーにしない（重い）→ versionで管理
+  const key = `v${wheel.poolVersion}|r${from}-${to}|w${wrongOnly}|m${mode}`;
 
-  let arranged = poolIdxs.slice();
-  if (mode === "random"){
-    // ホイールは「探す」用途なので、ランダムは使いにくいことが多い
-    // ただしユーザーの設定に合わせる方針のため、ここは「英語昇順」に固定にすると違和感が出る。
-    // -> ランダムの時は「番号昇順」にする（探しやすさ優先）
-    arranged.sort((a,b)=>a-b);
-  } else {
-    arranged.sort((a,b)=>a-b);
+  if (wheel.poolKey === key && wheel.pool.length){
+    return wheel.pool;
   }
 
-  return arranged.map(vocabIndex => ({
-    vocabIndex,
-    en: VOCAB[vocabIndex].en,
-    ja: VOCAB[vocabIndex].ja
-  }));
+  const poolIdxs = getPoolIndices();
+  const arranged = poolIdxs.slice().sort((a,b)=>a-b);
+
+  // ★HTMLもここで作って持つ（renderが速い）
+  const out = arranged.map(vocabIndex => {
+    const v = VOCAB[vocabIndex];
+    return {
+      vocabIndex,
+      _en: v._en,
+      _mix: v._mix,
+      html:
+        `<li class="wheelItem" data-index="">
+           <div class="wheelItemInner">
+             <div class="num">${vocabIndex + 1}</div>
+             <div>
+               <div class="main">${v._enEsc}</div>
+               <span class="ja">${v._jaEsc}</span>
+             </div>
+           </div>
+         </li>`
+    };
+  });
+
+  wheel.poolKey = key;
+  wheel.pool = out;
+  return out;
 }
 
+/* ★検索：前方一致優先 + 英日まとめて部分一致（小文字事前生成を使う） */
 function wheelFilter(list, q){
   const query = String(q || "").trim().toLowerCase();
   if (!query) return list.slice();
@@ -2926,82 +2890,86 @@ function wheelFilter(list, q){
   const contains = [];
 
   for (const it of list){
-    const en = it.en.toLowerCase();
-    const ja = String(it.ja || "").toLowerCase();
-
-    // 英語：前方一致を優先
-    if (en.startsWith(query)){
-      starts.push(it);
-    }
-    // 英語 or 日本語：部分一致
-    else if (en.includes(query) || ja.includes(query)){
-      contains.push(it);
-    }
+    if (it._en.startsWith(query)) starts.push(it);
+    else if (it._mix.includes(query)) contains.push(it);
   }
-
   return starts.concat(contains);
 }
 
+/* ★(最重要) 分割描画：200件ずつ描画して固まりを避ける */
+function wheelRenderBatched(){
+  const token = ++wheel.renderToken;
 
-function wheelRender(){
   const q = wheel.search.value;
   saveWheelQuery(q);
 
-  wheel.pool = buildWheelPool();
-  wheel.filtered = wheelFilter(wheel.pool, q);
+  const pool = getWheelPoolCached();
+  const filtered = wheelFilter(pool, q);
+  wheel.filtered = filtered;
 
+  // いったん空に
   wheel.list.innerHTML = "";
+  wheel.hint.textContent = (filtered.length === 0) ? "検索条件を変えてみてください。" : `表示: ${filtered.length} 件（範囲/復習設定に連動）`;
 
-  if (wheel.filtered.length === 0){
-    const li = document.createElement("li");
-    li.className = "wheelItem";
-    li.innerHTML = `<div class="wheelItemInner" style="opacity:.75;border-color:transparent;">一致する単語がありません</div>`;
-    wheel.list.appendChild(li);
-    wheel.hint.textContent = "検索条件を変えてみてください。";
+  if (filtered.length === 0){
+    wheel.list.innerHTML =
+      `<li class="wheelItem" data-index="0">
+         <div class="wheelItemInner" style="opacity:.75;border-color:transparent;">一致する単語がありません</div>
+       </li>`;
     wheel.activeIndex = 0;
-    wheelApply3D();
+    requestAnimationFrame(wheelApply3D);
     return;
   }
 
-  for (let i=0; i<wheel.filtered.length; i++){
-    const it = wheel.filtered[i];
-    const li = document.createElement("li");
-    li.className = "wheelItem";
-    li.dataset.index = String(i);
-    li.innerHTML = `
-      <div class="wheelItemInner">
-        <div class="num">${it.vocabIndex + 1}</div>
-        <div>
-          <div class="main">${escapeHtml(it.en)}</div>
-          <span class="ja">${escapeHtml(it.ja)}</span>
-        </div>
-      </div>
-    `;
-    // タップでその項目へスナップ
-    li.addEventListener("click", () => {
-      wheelScrollToIndex(i, true);
-    });
-    wheel.list.appendChild(li);
-  }
-
-  wheel.hint.textContent = `表示: ${wheel.filtered.length} 件（範囲/復習設定に連動）`;
-
-  // 初期位置：現在表示中の単語が含まれていたらそこへ
+  // 初期位置（現在の単語が含まれていればそこへ）
   const st = loadState();
   const cur = st ? getCurrentItem(st) : null;
   let idx = 0;
   if (cur){
     const vi = cur.vocabIndex;
-    const found = wheel.filtered.findIndex(x => x.vocabIndex === vi);
+    const found = filtered.findIndex(x => x.vocabIndex === vi);
     if (found >= 0) idx = found;
   }
+  wheel.activeIndex = clamp(idx, 0, filtered.length - 1);
 
-  wheel.activeIndex = clamp(idx, 0, wheel.filtered.length - 1);
-  // 描画後にスクロール
-  requestAnimationFrame(() => {
-    wheelScrollToIndex(wheel.activeIndex, false);
-    wheelApply3D();
-  });
+  // ★バッチ描画
+  const BATCH = 200;
+  let i = 0;
+
+  function appendNext(){
+    if (token !== wheel.renderToken) return; // 古い描画は破棄
+
+    const frag = document.createDocumentFragment();
+    const end = Math.min(i + BATCH, filtered.length);
+
+    for (; i < end; i++){
+      const wrapper = document.createElement("div");
+      wrapper.innerHTML = filtered[i].html.trim();
+      const li = wrapper.firstElementChild;
+      li.dataset.index = String(i); // ★今のfiltered内のindexを入れる
+      frag.appendChild(li);
+    }
+
+    wheel.list.appendChild(frag);
+
+    // まだ残りがあるなら、少し休んで次（入力が止まりにくい）
+    if (i < filtered.length){
+      wheel.hint.textContent = `表示: ${filtered.length} 件（描画中… ${i}/${filtered.length}）`;
+      setTimeout(appendNext, 0);
+      return;
+    }
+
+    // 完了
+    wheel.hint.textContent = `表示: ${filtered.length} 件（範囲/復習設定に連動）`;
+
+    // スクロール＆3D
+    requestAnimationFrame(() => {
+      wheelScrollToIndex(wheel.activeIndex, false);
+      wheelApply3D();
+    });
+  }
+
+  appendNext();
 }
 
 function wheelScrollToIndex(i, smooth){
@@ -3010,7 +2978,6 @@ function wheelScrollToIndex(i, smooth){
 
   const idx = clamp(i, 0, items.length - 1);
   const target = items[idx];
-
   const top = target.offsetTop + (target.offsetHeight/2) - (wheel.viewport.clientHeight/2);
   wheel.viewport.scrollTo({ top, behavior: smooth ? "smooth" : "auto" });
   wheel.activeIndex = idx;
@@ -3049,15 +3016,14 @@ function wheelApply3D(){
 
   const centerY = wheel.viewport.scrollTop + wheel.viewport.clientHeight/2;
 
-  items.forEach((row, i) => {
+  items.forEach((row) => {
     const y = row.offsetTop + row.offsetHeight/2;
     const delta = (y - centerY) / (parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--wheel-item-h")) || 44);
 
-    // -3 .. 3 あたりを想定
     const clamped = clamp(delta, -4, 4);
-    const angle = clamped * 12;         // 回転角
-    const z = Math.max(0, 1 - Math.abs(clamped)/4); // 中央ほど前に
-    const scale = 0.92 + z * 0.12;      // 中央が少し大きい
+    const angle = clamped * 12;
+    const z = Math.max(0, 1 - Math.abs(clamped)/4);
+    const scale = 0.92 + z * 0.12;
     const opacity = 0.25 + z * 0.75;
 
     const inner = row.querySelector(".wheelItemInner");
@@ -3066,7 +3032,6 @@ function wheelApply3D(){
     inner.style.transform = `translateZ(${z * 18}px) rotateX(${angle}deg) scale(${scale})`;
     inner.style.opacity = String(opacity);
 
-    // 中央付近を強調
     if (Math.abs(clamped) < 0.35){
       inner.style.borderColor = "rgba(100,116,139,0.25)";
       inner.style.background = "rgba(100,116,139,0.06)";
@@ -3081,14 +3046,15 @@ function wheelOpen(){
   wheel.overlay.classList.add("show");
   wheel.overlay.setAttribute("aria-hidden", "false");
 
-  // 直前の検索文字を復元
   wheel.search.value = loadWheelQuery() || "";
-  wheelRender();
+  wheel.lastQuery = wheel.search.value;
 
   // 背景スクロール停止（iPhone対策）
   document.body.style.overflow = "hidden";
 
-  // フォーカス
+  // 先に描画開始（分割描画）
+  wheelRenderBatched();
+
   setTimeout(() => {
     wheel.search.focus({ preventScroll: true });
   }, 120);
@@ -3105,21 +3071,17 @@ function wheelJumpToSelected(){
   const picked = wheel.filtered[clamp(wheel.activeIndex, 0, wheel.filtered.length - 1)];
   if (!picked) return;
 
-  // 現在の state を読み、同じ poolIdxs で order を作り直し、
-  // picked.vocabIndex が st.index で指すようにする
   const poolIdxs = getPoolIndices();
   if (!poolIdxs.length) return;
 
   const st = loadState() || freshStateForPool(poolIdxs);
 
-  // 現在の pool と合ってない場合は作り直す
   const poolNow = getPoolIndices();
   if (!Array.isArray(st.poolIdxs) || st.poolIdxs.length !== poolNow.length){
     st.poolIdxs = poolNow;
     st.order = freshStateForPool(poolNow).order;
   }
 
-  // st.order の中から、picked.vocabIndex の位置を探す
   let foundIndex = -1;
   for (let i=0; i<st.order.length; i++){
     const poolIndex = st.poolIdxs[ st.order[i] ];
@@ -3130,7 +3092,6 @@ function wheelJumpToSelected(){
   }
 
   if (foundIndex === -1){
-    // 念のため：poolが変わった等
     st.poolIdxs = poolNow;
     st.order = freshStateForPool(poolNow).order;
     for (let i=0; i<st.order.length; i++){
@@ -3144,10 +3105,10 @@ function wheelJumpToSelected(){
 
   if (foundIndex >= 0){
     st.index = foundIndex;
-    st.phase = 0; // テスト開始状態にする（英語のみ）
+    st.phase = 0;
     saveState(st);
     setUI(st);
-    try{ speakEnglish(picked.en); }catch{}
+    try{ speakEnglish(VOCAB[picked.vocabIndex].en); }catch{}
   }
 
   wheelClose();
@@ -3180,7 +3141,6 @@ function init(){
     const next = (now === "dark") ? "light" : "dark";
     saveTheme(next);
     applyTheme(next);
-    // ホイールのフェードなどはCSSで対応済み
   });
 
   updateOrderUI();
@@ -3222,9 +3182,10 @@ function init(){
     updateWrongCountUI();
     setUI(st);
 
-    // ホイール側も更新しやすいように
+    // ★プール更新
+    bumpWheelPoolVersion();
     if (wheel.overlay.classList.contains("show")){
-      wheelRender();
+      wheelRenderBatched();
     }
   }
 
@@ -3245,8 +3206,9 @@ function init(){
     updateWrongCountUI();
     setUI(st);
 
+    bumpWheelPoolVersion();
     if (wheel.overlay.classList.contains("show")){
-      wheelRender();
+      wheelRenderBatched();
     }
   });
 
@@ -3263,8 +3225,9 @@ function init(){
     saveWrongSet(set);
     updateWrongCountUI();
 
+    bumpWheelPoolVersion();
     if (wheel.overlay.classList.contains("show")){
-      wheelRender();
+      wheelRenderBatched();
     }
   });
 
@@ -3277,8 +3240,9 @@ function init(){
     saveState(st);
     setUI(st);
 
+    bumpWheelPoolVersion();
     if (wheel.overlay.classList.contains("show")){
-      wheelRender();
+      wheelRenderBatched();
     }
   });
 
@@ -3322,8 +3286,9 @@ function init(){
     saveState(st2);
     setUI(st2);
 
+    bumpWheelPoolVersion();
     if (wheel.overlay.classList.contains("show")){
-      wheelRender();
+      wheelRenderBatched();
     }
   });
 
@@ -3344,10 +3309,11 @@ function init(){
   wheel.clearBtn.addEventListener("click", () => {
     wheel.search.value = "";
     saveWheelQuery("");
-    wheelRender();
+    wheel.lastQuery = "";
+    wheelRenderBatched();
   });
 
-  // オーバーレイ背景タップで閉じる（シート自体は閉じない）
+  // オーバーレイ背景タップで閉じる
   wheel.overlay.addEventListener("click", (e) => {
     if (e.target === wheel.overlay) wheelClose();
   });
@@ -3359,11 +3325,30 @@ function init(){
     }
   });
 
-  // 検索で再描画（軽め）
+  /* =========================================================
+     ★(重要) 検索：デバウンス + 同一クエリ無視
+  ========================================================= */
   let t = 0;
   wheel.search.addEventListener("input", () => {
+    const q = wheel.search.value;
+    if (q === wheel.lastQuery) return;
+
     clearTimeout(t);
-    t = setTimeout(wheelRender, 80);
+    t = setTimeout(() => {
+      wheel.lastQuery = wheel.search.value;
+      wheelRenderBatched();
+    }, 180); // iPhone向けに少し長め
+  });
+
+  /* =========================================================
+     ★(重要) クリック：イベント委譲（各行にリスナーを付けない）
+  ========================================================= */
+  wheel.list.addEventListener("click", (e) => {
+    const li = e.target.closest(".wheelItem");
+    if (!li) return;
+    const idx = parseInt(li.dataset.index || "0", 10);
+    if (!Number.isFinite(idx)) return;
+    wheelScrollToIndex(idx, true);
   });
 
   // スクロール中は3D更新、止まったらスナップ
@@ -3374,15 +3359,11 @@ function init(){
 
     clearTimeout(snapTimer);
     snapTimer = setTimeout(() => {
-      // 表示があるときだけ
       if (wheel.overlay.classList.contains("show")){
         wheelSnap();
       }
     }, 140);
   }, { passive: true });
-
-  // 「移動」ボタンの代わりに、ホイール中央付近をダブルタップで決定したい場合の保険（今回は無し）
-  // wheel.list.addEventListener("dblclick", wheelJumpToSelected);
 }
 
 init();
